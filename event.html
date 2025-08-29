@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Event Crowd Monitoring</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #counter-box {
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 250px;
+    }
+
+    #count {
+      font-size: 48px;
+      margin: 10px 0;
+      color: #0077cc;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #enter {
+      background-color: #28a745;
+      color: white;
+    }
+
+    #exit {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Smart Event Crowd Monitoring</h1>
+
+  <div id="counter-box">
+    <p>Current Crowd Count:</p>
+    <div id="count">0</div>
+    <button id="enter">+ Person Enters</button>
+    <button id="exit">- Person Exits</button>
+    <p id="status">Safe</p>
+  </div>
+
+  <script>
+    let count = 0;
+    const maxLimit = 50; // safe capacity
+    const countDisplay = document.getElementById("count");
+    const statusDisplay = document.getElementById("status");
+
+    document.getElementById("enter").addEventListener("click", () => {
+      count++;
+      updateDisplay();
+    });
+
+    document.getElementById("exit").addEventListener("click", () => {
+      if (count > 0) count--;
+      updateDisplay();
+    });
+
+    function updateDisplay() {
+      countDisplay.textContent = count;
+
+      if (count === 0) {
+        statusDisplay.textContent = "Empty";
+        statusDisplay.style.color = "#6c757d";
+      } else if (count <= maxLimit * 0.7) {
+        statusDisplay.textContent = "Safe";
+        statusDisplay.style.color = "#28a745";
+      } else if (count <= maxLimit) {
+        statusDisplay.textContent = "Caution";
+        statusDisplay.style.color = "#ffc107";
+      } else {
+        statusDisplay.textContent = "Overcrowded!";
+        statusDisplay.style.color = "#dc3545";
+        alert("⚠ Safety Alert: Overcrowding detected!");
+      }
+    }
+  </script>
+</body>
+</html>
